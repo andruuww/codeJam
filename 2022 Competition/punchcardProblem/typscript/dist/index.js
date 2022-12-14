@@ -11,8 +11,27 @@ const rl = readline_1.default.createInterface({
 });
 async function main() {
     let inputs = await readInput();
-    for (let i of inputs) {
-        console.log(i);
+    for (let i = 0; i < inputs.length; i++) {
+        // print test case #
+        console.log(`Case #${i + 1}:`);
+        for (let r = 0; r < inputs[i][0] * 2 + 1; r++) {
+            let output = '';
+            for (let c = 0; c < inputs[i][1] + 1; c++) {
+                if (r < 2 && c < 1) {
+                    output += '..';
+                }
+                else {
+                    if (r % 2 == 0) {
+                        output += '+-';
+                    }
+                    else {
+                        output += '|.';
+                    }
+                }
+            }
+            output = output.slice(0, -1);
+            console.log(output);
+        }
     }
 }
 async function readInput() {
@@ -27,6 +46,7 @@ async function readInput() {
         });
         // when the reader is done, resolve the promise and return values
         rl.on('close', () => {
+            inputs.shift();
             resolve(inputs);
         });
     });

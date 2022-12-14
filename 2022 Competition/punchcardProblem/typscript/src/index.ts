@@ -9,8 +9,26 @@ const rl = readline.createInterface({
 async function main(): Promise<void> {
     let inputs: number[][] = await readInput();
 
-    for (let i of inputs) {
-        console.log(i);
+    
+    for (let i: number = 0; i < inputs.length; i++) {
+        // print test case #
+        console.log(`Case #${i+1}:`);
+        for (let r: number = 0; r < inputs[i][0]*2+1; r++) {
+            let output:string = '';
+            for (let c: number = 0; c < inputs[i][1] + 1; c++) {
+                if(r < 2 && c < 1) {
+                    output += '..'
+                } else {
+                    if (r%2 === 0) {
+                        output += '+-';
+                    } else {
+                        output += '|.';
+                    }
+                }
+            }
+            output = output.slice(0, -1);
+            console.log(output);
+        } 
     }
 }
 
@@ -26,6 +44,7 @@ async function readInput(): Promise<number[][]> {
         });
         // when the reader is done, resolve the promise and return values
         rl.on('close', (): void => {
+            inputs.shift();
             resolve(inputs);
         });
     });
