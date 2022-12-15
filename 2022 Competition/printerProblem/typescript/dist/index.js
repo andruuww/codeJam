@@ -11,7 +11,31 @@ const rl = readline_1.default.createInterface({
 });
 async function main() {
     let input = await readInput();
-    console.log(input);
+    for (let c of input) {
+        process.stdout.write(`Case #${c.caseNum}: `);
+        let lowestColors = [];
+        for (let i = 0; i < c.printers[0].length; i++) {
+            for (let j = 0; j < c.printers.length; j++) {
+                if (lowestColors[i] == null || c.printers[j][i] <= lowestColors[i]) {
+                    lowestColors[i] = c.printers[j][i];
+                }
+            }
+        }
+        let sum = 0;
+        for (let num of lowestColors) {
+            sum += num;
+        }
+        let difference = 1000000 - sum;
+        if (difference <= 0) {
+            for (let num of lowestColors) {
+                process.stdout.write(`${num} `);
+            }
+        }
+        else {
+            process.stdout.write('IMPOSSIBLE');
+        }
+        console.log();
+    }
 }
 async function readInput() {
     return new Promise((resolve) => {

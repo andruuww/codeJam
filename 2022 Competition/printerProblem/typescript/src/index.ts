@@ -8,12 +8,39 @@ const rl = readline.createInterface({
 
 interface Case {
     caseNum: number,
-    printers: number[][];
+    printers: number[][]
 }
 
 async function main(): Promise<void> {
     let input: Case[] = await readInput();
-    console.log(input);
+    for (let c of input) {
+        process.stdout.write(`Case #${c.caseNum}: `);
+
+        let lowestColors:number[] = [];
+
+        for (let i: number = 0; i < c.printers[0].length; i++) {
+            for (let j: number = 0; j < c.printers.length; j++) {
+                if (lowestColors[i] == null || c.printers[j][i] <= lowestColors[i]) {
+                    lowestColors[i] = c.printers[j][i];
+                }
+            }
+        }
+
+        let sum: number = 0;
+        for (let num of lowestColors) {
+            sum += num;
+        }
+
+        let difference: number = 1000000 - sum;
+        if (difference <= 0) {
+            for (let num of lowestColors) {
+                process.stdout.write(`${num} `);
+            } 
+        } else {
+            process.stdout.write('IMPOSSIBLE')
+        }
+        console.log();
+    }
 }
 
 async function readInput(): Promise<Case[]> {
