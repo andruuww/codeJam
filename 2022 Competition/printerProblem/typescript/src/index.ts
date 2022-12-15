@@ -13,10 +13,13 @@ interface Case {
 
 async function main(): Promise<void> {
     let input: Case[] = await readInput();
+
+    console.log(input);
+
     for (let c of input) {
         process.stdout.write(`Case #${c.caseNum}: `);
 
-        let lowestColors:number[] = [];
+        let lowestColors: number[] = [];
 
         for (let i: number = 0; i < c.printers[0].length; i++) {
             for (let j: number = 0; j < c.printers.length; j++) {
@@ -26,18 +29,18 @@ async function main(): Promise<void> {
             }
         }
 
-        let sum: number = 0;
+        let diff: number = 1000000;
         for (let num of lowestColors) {
-            sum += num;
+            diff -= num;
         }
 
-        let difference: number = 1000000 - sum;
-        if (difference <= 0) {
+        if (diff <= 0) {
             for (let num of lowestColors) {
-                process.stdout.write(`${num} `);
+                process.stdout.write(`${Math.max((num+diff), 0)} `);
+                diff = Math.min(0, num + diff);
             } 
         } else {
-            process.stdout.write('IMPOSSIBLE')
+            process.stdout.write('IMPOSSIBLE');
         }
         console.log();
     }

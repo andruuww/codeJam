@@ -11,6 +11,7 @@ const rl = readline_1.default.createInterface({
 });
 async function main() {
     let input = await readInput();
+    console.log(input);
     for (let c of input) {
         process.stdout.write(`Case #${c.caseNum}: `);
         let lowestColors = [];
@@ -21,14 +22,14 @@ async function main() {
                 }
             }
         }
-        let sum = 0;
+        let diff = 1000000;
         for (let num of lowestColors) {
-            sum += num;
+            diff -= num;
         }
-        let difference = 1000000 - sum;
-        if (difference <= 0) {
+        if (diff <= 0) {
             for (let num of lowestColors) {
-                process.stdout.write(`${num} `);
+                process.stdout.write(`${Math.max((num + diff), 0)} `);
+                diff = Math.min(0, num + diff);
             }
         }
         else {
